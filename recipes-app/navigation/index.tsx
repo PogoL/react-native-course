@@ -9,15 +9,21 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
+import { enableScreens } from 'react-native-screens';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
+import CategoriesScreen from '../screens/CategoriesScreen';
+import CategoryMealsScreen from '../screens/CategoryMealsScreen';
+import MealDetailScreen from '../screens/MealDetailScreen';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 // import LinkingConfiguration from './LinkingConfiguration';
+
+enableScreens();
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -37,15 +43,40 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+    <Stack.Navigator screenOptions={{
+      headerTitle: 'Meal App',
+      headerStyle: {
+        backgroundColor: Colors.primaryColor
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+          fontWeight: 'bold',
+      }
+    }}>
+      <Stack.Screen name="Categories" component={CategoriesScreen} options={{
+        headerTitle: 'Meal Categories'
+      }}/>
+      <Stack.Screen name="CategoryMeals" component={CategoryMealsScreen} options={CategoryMealsScreen.navigationOptions} />
+      <Stack.Screen name="MealDetail" component={MealDetailScreen} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
     </Stack.Navigator>
   );
 }
+
+//code for insert modal:
+//<Stack.Group screenOptions={{ presentation: 'modal' }}>
+//  <Stack.Screen name="Modal" component={ModalScreen} />
+//</Stack.Group>
+
+
+//paste this to RootNavigator when implement this bottom tab navigator
+//<Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+
+
+//NOTHING IMPORTANT BELOW
+
+
+
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
