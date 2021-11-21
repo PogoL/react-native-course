@@ -30,7 +30,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     <NavigationContainer
       // linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
+      <BottomTabNavigator />
     </NavigationContainer>
   );
 }
@@ -44,14 +44,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{
-      headerTitle: 'Meal App',
-      headerStyle: {
-        backgroundColor: Colors.primaryColor
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-          fontWeight: 'bold',
-      }
+      headerShown: false
     }}>
       <Stack.Screen name="Categories" component={CategoriesScreen} options={{
         headerTitle: 'Meal Categories'
@@ -59,6 +52,7 @@ function RootNavigator() {
       <Stack.Screen name="CategoryMeals" component={CategoryMealsScreen} options={CategoryMealsScreen.navigationOptions} />
       <Stack.Screen name="MealDetail" component={MealDetailScreen} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
@@ -71,11 +65,6 @@ function RootNavigator() {
 
 //paste this to RootNavigator when implement this bottom tab navigator
 //<Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-
-
-//NOTHING IMPORTANT BELOW
-
-
 
 
 /**
@@ -91,11 +80,18 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="TabOne"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        headerTitle: 'Meal App',
+        headerStyle: {
+          backgroundColor: Colors.primaryColor
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        }
       }}>
       <BottomTab.Screen
         name="TabOne"
-        component={TabOneScreen}
+        component={RootNavigator}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: 'Tab One',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,

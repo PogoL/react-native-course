@@ -10,18 +10,16 @@ import {
 import { CATEGORIES } from '../data/dummy-data';
 import CategoryGridTile from '../components/CategoryGridTile';
 
-const CategoriesScreen = (props: any) => {
+export default function CategoriesScreen (props: any) {
   const renderGridItem = (itemData: any) => {
     return (
       <CategoryGridTile
         title={itemData.item.title}
         color={itemData.item.color}
         onSelect={() => {
-          props.navigation.navigate({
-            routeName: 'CategoryMeals',
-            params: {
-              categoryId: itemData.item.id
-            }
+          props.navigation.navigate('CategoryMeals', {
+            categoryId: itemData.item.id,
+              categoryTitle: itemData.item.title
           });
         }}
       />
@@ -49,5 +47,3 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
-
-export default CategoriesScreen;
